@@ -117,6 +117,22 @@ class TestBooking:
         booking_id = self.booking_api.post_booking(
             data=BookingGenerator(space_id=self.space_id).default_data
         ).json().get('id')
+        self.space_api.delete_space(id_=self.space_id)
+        # Act
+        response = self.booking_api.get_booking_owner()
+        # Assert
+        check_status_code(request=response, exp_code=200)
+        booking_ids = []
+        for booking in response.json():
+            if booking.get('id'):
+                booking_ids.append(booking.get('id'))
+        assert booking_id not in booking_ids, f"Booking: {booking_id} found after delete for owner!"
+
+    def test_get_booking_owner_after_delete_book(self):
+        # Array
+        booking_id = self.booking_api.post_booking(
+            data=BookingGenerator(space_id=self.space_id).default_data
+        ).json().get('id')
         self.booking_api.delete_booking(id_=booking_id)
         # Act
         response = self.booking_api.get_booking_owner()
@@ -145,6 +161,22 @@ class TestBooking:
         assert booking_id in booking_ids, f"Booking for tenant not found in {response.json()}!"
 
     def test_get_booking_tenant_after_delete_space(self):
+        # Array
+        booking_id = self.booking_api.post_booking(
+            data=BookingGenerator(space_id=self.space_id).default_data
+        ).json().get('id')
+        self.space_api.delete_space(id_=self.space_id)
+        # Act
+        response = self.booking_api.get_booking_tenant()
+        # Assert
+        check_status_code(request=response, exp_code=200)
+        booking_ids = []
+        for booking in response.json():
+            if booking.get('id'):
+                booking_ids.append(booking.get('id'))
+        assert booking_id not in booking_ids, f"Booking: {booking_id} found after delete for tenant!"
+
+    def test_get_booking_tenant_after_delete_book(self):
         # Array
         booking_id = self.booking_api.post_booking(
             data=BookingGenerator(space_id=self.space_id).default_data
