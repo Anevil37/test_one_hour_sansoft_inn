@@ -1,0 +1,68 @@
+2023-04-22 16:51:59 | [INFO] | method 'get_space_filter' called with args []
+2023-04-22 16:51:59 | [INFO] | 
+test_name: test_delete_booking_id_not_found
+method_name: get_space_filter
+request_method: GET
+request_url: https://api.sansoft-inn.com/one-hour/space/filter/
+request_body: None
+response_status_code: 200
+response_text: {"cities":["Autotest_city_20deee29-3e53-4756-b5d1-3fdd9777164e","Autotest_city_6e1c6936-e908-4bb7-afd3-d8f6f8a22249","Autotest_city_c7dbb015-a3f0-496d-a87f-dcdc9e18e5c9","Autotest_city_cb1a8873-97b1-4e74-8611-a64a1a1d4028","Autotest_city_cb5505cb-b696-46b7-b91b-a4e687873fe2","Autotest_city_e7c9b93b-3e16-46c8-b521-e2bd5ba85c50","Autotest_city_ff19804c-47da-4be9-8dac-3b405841d7d5","Belgrade","Beograd","Ivanovo","Krusevac"],"types":["sports_area","photo_studio","conference_hall","massage_room","music_hall"]}
+
+2023-04-22 16:51:59 | [INFO] | method 'post_space' called with args [data={'name': 'Autotest_space_bc2ca7f7-9b82-4dcb-803f-08ffb605905a', 'type': 'music_hall', 'city': 'Autotest_city_bc2ca7f7-9b82-4dcb-803f-08ffb605905a', 'country': 'Autotest_count_bc2ca7f7-9b82-4dcb-803f-08ffb605905a', 'address': 'Autotest_address_bc2ca7f7-9b82-4dcb-803f-08ffb605905a', 'area': 234, 'price': 235, 'available_from': '2020-01-01T01:01:01.001Z', 'available_to': '2030-01-01T01:01:01.001Z', 'short_description': 'Autotest_short_desc_bc2ca7f7-9b82-4dcb-803f-08ffb605905a', 'detailed_description': 'Autotest_detail_desc_bc2ca7f7-9b82-4dcb-803f-08ffb605905a', 'image_urls': ['https://www.neptunus.co.uk/wp-content/uploads/2018/08/demontabel-bouwen-Flexolution-2-flex2shop-mclaren-showroom-hatfield-8-820x546.jpg'], 'id': 'bc2ca7f7-9b82-4dcb-803f-08ffb605905a', 'lat': '236', 'lng': '237'}]
+2023-04-22 16:51:59 | [INFO] | 
+test_name: test_delete_booking_id_not_found
+method_name: post_space
+request_method: POST
+request_url: https://api.sansoft-inn.com/one-hour/space/
+request_body: b'{"name": "Autotest_space_bc2ca7f7-9b82-4dcb-803f-08ffb605905a", "type": "music_hall", "city": "Autotest_city_bc2ca7f7-9b82-4dcb-803f-08ffb605905a", "country": "Autotest_count_bc2ca7f7-9b82-4dcb-803f-08ffb605905a", "address": "Autotest_address_bc2ca7f7-9b82-4dcb-803f-08ffb605905a", "area": 234, "price": 235, "available_from": "2020-01-01T01:01:01.001Z", "available_to": "2030-01-01T01:01:01.001Z", "short_description": "Autotest_short_desc_bc2ca7f7-9b82-4dcb-803f-08ffb605905a", "detailed_description": "Autotest_detail_desc_bc2ca7f7-9b82-4dcb-803f-08ffb605905a", "image_urls": ["https://www.neptunus.co.uk/wp-content/uploads/2018/08/demontabel-bouwen-Flexolution-2-flex2shop-mclaren-showroom-hatfield-8-820x546.jpg"], "id": "bc2ca7f7-9b82-4dcb-803f-08ffb605905a", "lat": "236", "lng": "237"}'
+response_status_code: 200
+response_text: {"name":"Autotest_space_bc2ca7f7-9b82-4dcb-803f-08ffb605905a","type":"music_hall","city":"Autotest_city_bc2ca7f7-9b82-4dcb-803f-08ffb605905a","country":"Autotest_count_bc2ca7f7-9b82-4dcb-803f-08ffb605905a","address":"Autotest_address_bc2ca7f7-9b82-4dcb-803f-08ffb605905a","area":234,"price":235,"available_from":"2020-01-01T01:01:01.001000+00:00","available_to":"2030-01-01T01:01:01.001000+00:00","short_description":"Autotest_short_desc_bc2ca7f7-9b82-4dcb-803f-08ffb605905a","detailed_description":"Autotest_detail_desc_bc2ca7f7-9b82-4dcb-803f-08ffb605905a","image_urls":["https://www.neptunus.co.uk/wp-content/uploads/2018/08/demontabel-bouwen-Flexolution-2-flex2shop-mclaren-showroom-hatfield-8-820x546.jpg"],"id":"29e0945d-432f-4655-9c4a-b3ce6c56408c","lat":"236","lng":"237"}
+
+2023-04-22 16:51:59 | [INFO] | method 'delete_booking' called with args [id_='bc2ca7f7-9b82-4dcb-803f-08ffb605905a']
+2023-04-22 16:52:00 | [ERROR] | 400 Bad Request 
+test_name: test_delete_booking_id_not_found
+method_name: delete_booking
+request_method: DELETE
+request_url: https://api.sansoft-inn.com/one-hour/booking/?id=bc2ca7f7-9b82-4dcb-803f-08ffb605905a
+request_body: None
+response_text: {"detail":"Wrong booking id"}
+
+2023-04-22 16:52:00 | [INFO] | method 'delete_booking' called with args [id_='bc2ca7f7-9b82-4dcb-803f-08ffb605905a']
+2023-04-22 16:52:00 | [ERROR] | 400 Bad Request 
+test_name: test_delete_booking_id_not_found
+method_name: delete_booking
+request_method: DELETE
+request_url: https://api.sansoft-inn.com/one-hour/booking/?id=bc2ca7f7-9b82-4dcb-803f-08ffb605905a
+request_body: None
+response_text: {"detail":"Wrong booking id"}
+
+2023-04-22 16:52:00 | [INFO] | method 'get_booking_owner' called with args []
+2023-04-22 16:52:00 | [INFO] | 
+test_name: test_delete_booking_id_not_found
+method_name: get_booking_owner
+request_method: GET
+request_url: https://api.sansoft-inn.com/one-hour/booking/owner/
+request_body: None
+response_status_code: 200
+response_text: []
+
+2023-04-22 16:52:00 | [INFO] | method 'get_space' called with args [city='Autotest_city_bc2ca7f7-9b82-4dcb-803f-08ffb605905a']
+2023-04-22 16:52:01 | [INFO] | 
+test_name: test_delete_booking_id_not_found
+method_name: get_space
+request_method: GET
+request_url: https://api.sansoft-inn.com/one-hour/space/?city=Autotest_city_bc2ca7f7-9b82-4dcb-803f-08ffb605905a
+request_body: None
+response_status_code: 200
+response_text: [{"name":"Autotest_space_bc2ca7f7-9b82-4dcb-803f-08ffb605905a","type":"music_hall","city":"Autotest_city_bc2ca7f7-9b82-4dcb-803f-08ffb605905a","country":"Autotest_count_bc2ca7f7-9b82-4dcb-803f-08ffb605905a","address":"Autotest_address_bc2ca7f7-9b82-4dcb-803f-08ffb605905a","area":234,"price":235,"available_from":"2020-01-01T01:01:01.001000+00:00","available_to":"2030-01-01T01:01:01.001000+00:00","short_description":"Autotest_short_desc_bc2ca7f7-9b82-4dcb-803f-08ffb605905a","detailed_description":"Autotest_detail_desc_bc2ca7f7-9b82-4dcb-803f-08ffb605905a","image_urls":["https://www.neptunus.co.uk/wp-content/uploads/2018/08/demontabel-bouwen-Flexolution-2-flex2shop-mclaren-showroom-hatfield-8-820x546.jpg"],"id":"29e0945d-432f-4655-9c4a-b3ce6c56408c","lat":"236","lng":"237"}]
+
+2023-04-22 16:52:01 | [INFO] | method 'delete_space' called with args [id_='29e0945d-432f-4655-9c4a-b3ce6c56408c']
+2023-04-22 16:52:01 | [INFO] | 
+test_name: test_delete_booking_id_not_found
+method_name: delete_space
+request_method: DELETE
+request_url: https://api.sansoft-inn.com/one-hour/space/?id=29e0945d-432f-4655-9c4a-b3ce6c56408c
+request_body: None
+response_status_code: 200
+response_text: {"detail":"Successfully deleted"}
+
