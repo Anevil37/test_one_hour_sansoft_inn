@@ -80,7 +80,6 @@ class TestSpace:
         check_status_code(request=response, exp_code=200)
         assert len(response.json()) != 0, f"Space not found. Actual response: {response.json()}"
 
-    @pytest.mark.regress
     def test_get_spaces_with_incorrect_param_value(self):
         # Array
         space_city = self.space_api.post_space(data=self.space.default_data).json().get('city')
@@ -91,7 +90,6 @@ class TestSpace:
         assert len(response.json()) == 0, f"Len response is incorrect: {response.json()}!"
 
     # DELETE /space/
-    @pytest.mark.smoke
     def test_delete_space(self):
         # Array
         space_id = self.space_api.post_space(data=self.space.default_data).json().get('id')
@@ -104,7 +102,6 @@ class TestSpace:
             f"Incorrect response: {del_response.json()}!"
         assert len(get_response.json()) == 0, f"Len GET response is incorrect: {get_response.json()}!"
 
-    @pytest.mark.regress
     def test_delete_space_already_deleted(self):
         # Array
         space_id = self.space_api.post_space(data=self.space.default_data).json().get('id')
@@ -114,7 +111,6 @@ class TestSpace:
         # Assert
         check_status_code(request=del_response, exp_code=400)
 
-    @pytest.mark.regress
     def test_delete_space_id_not_found(self):
         # Act
         del_response = self.space_api.delete_space(id_=self.space.default_data.get('id'))
@@ -122,7 +118,6 @@ class TestSpace:
         check_status_code(request=del_response, exp_code=400)
 
     # GET /space/owner/
-    @pytest.mark.smoke
     def test_get_spaces_owner(self):
         # Array
         self.space_api.post_space(data=self.space.default_data).json()
@@ -133,7 +128,6 @@ class TestSpace:
         assert len(response.json()) != 0, f"Space not found. Actual response: {response.json()}"
 
     # GET /space/filter/
-    @pytest.mark.smoke
     def test_get_spaces_filter(self):
         # Array
         space_data = self.space.default_data
