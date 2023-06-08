@@ -1,11 +1,13 @@
-import pytest
 import configparser
 
+import pytest
 import requests
 
 
 def pytest_addoption(parser):
-    parser.addoption("--env", action='store', default='TEST', help='Chose environment: default TEST')
+    parser.addoption(
+        "--env", action="store", default="TEST", help="Chose environment: default TEST"
+    )
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -15,26 +17,27 @@ def config(request):
 
     env = request.config.getoption("--env")
     configuration = configparser.RawConfigParser()
-    configuration.read(".\\config.ini")
+    configuration.read("../config.ini")
 
     test_config = {
-        'url': configuration.get(env, 'url'),
-        'phone': configuration.get(env, 'phone'),
-        'password': configuration.get(env, 'password')
+        "url": configuration.get(env, "url"),
+        "phone": configuration.get(env, "phone"),
+        "password": configuration.get(env, "password"),
     }
 
-    token = requests.post(
-        url=f"{test_config['url']}/client/sign-in",
-        headers={
-            'Content-Type': 'application/json',
-            'Connection': 'keep-alive',
-            'Accept': 'application/json'
-        },
-        json={
-            "phone_number": test_config['phone'],
-            "password": test_config['password']
-        }
-    ).json().get('token')
+    token = (
+        requests.put(
+            url=f"{test_config['url']}/client/sign-in/",
+            headers={
+                "Content-Type": "application/json",
+                "Connection": "keep-alive",
+                "Accept": "application/json",
+            },
+            json={"phone_number": test_config["phone"], "password": test_config["password"]},
+        )
+        .json()
+        .get("token")
+    )
 
     if token is not None:
         test_config.update({"token": token})

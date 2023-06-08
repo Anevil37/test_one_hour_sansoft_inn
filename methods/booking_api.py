@@ -1,6 +1,7 @@
 import json
 
 import requests
+
 from utils.logger.log import log
 
 
@@ -8,13 +9,13 @@ class BookingApi:
     def __init__(self, config):
         self.config = config
         self.headers = {
-            'Authorization': f"Bearer {self.config['token']}",
-            'Content-Type': 'application/json',
-            'Connection': 'keep-alive',
-            'Accept': 'application/json'
+            "Authorization": f"Bearer {self.config['token']}",
+            "Content-Type": "application/json",
+            "Connection": "keep-alive",
+            "Accept": "application/json",
         }
 
-        self.url = self.config['url'] + '/booking'
+        self.url = self.config["url"] + "/booking"
 
     @log
     def post_booking(self, data: json) -> requests.Response:
@@ -23,11 +24,7 @@ class BookingApi:
         :param data: data for create booking.
         :return: json data.
         """
-        with requests.post(
-                f"{self.url}/",
-                headers=self.headers,
-                json=data
-        ) as response:
+        with requests.post(f"{self.url}/", headers=self.headers, json=data) as response:
             return response
 
     @log
@@ -36,10 +33,7 @@ class BookingApi:
         GET /booking/tenant/ \n
         :return: json data.
         """
-        with requests.get(
-                f"{self.url}/tenant/",
-                headers=self.headers
-        ) as response:
+        with requests.get(f"{self.url}/tenant/", headers=self.headers) as response:
             return response
 
     @log
@@ -48,10 +42,7 @@ class BookingApi:
         GET /booking/owner/ \n
         :return: json data.
         """
-        with requests.get(
-                f"{self.url}/owner/",
-                headers=self.headers
-        ) as response:
+        with requests.get(f"{self.url}/owner/", headers=self.headers) as response:
             return response
 
     @log
@@ -61,11 +52,5 @@ class BookingApi:
         :param id_: booking id.
         :return: json data.
         """
-        with requests.delete(
-                f"{self.url}/",
-                headers=self.headers,
-                params={
-                    "id": id_
-                }
-        ) as response:
+        with requests.delete(f"{self.url}/", headers=self.headers, params={"id": id_}) as response:
             return response

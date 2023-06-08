@@ -11,7 +11,5 @@ def check_status_code(request: requests, exp_code: int):
     status_code = request.status_code
     pytest_check.is_true(
         status_code == exp_code,
-        f"Unexpected status code!\n"
-        f"Expected: {exp_code},\n"
-        f"Actual: {status_code}"
+        f"Unexpected status code!\n" f"Expected: {exp_code},\n" f"Actual: {status_code}",
     )

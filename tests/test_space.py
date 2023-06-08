@@ -1,12 +1,11 @@
 import pytest
 
-from methods.space_api import SpaceApi
 from generators.space_generator import SpaceGenerator
+from methods.space_api import SpaceApi
 from utils.utils import check_status_code
 
 
 class TestSpace:
-
     @pytest.fixture(autouse=True)
     def setup(self, config):
         self.config = config
@@ -14,13 +13,13 @@ class TestSpace:
         self.space = SpaceGenerator(config=self.config)
 
     def teardown(self):
-        space = self.space_api.get_space(city=self.space.default_data.get('city'))
+        space = self.space_api.get_space(city=self.space.default_data.get("city"))
         if space.status_code == 200:
             try:
-                space_id = space.json()[0].get('id')
+                space_id = space.json()[0].get("id")
                 self.space_api.delete_space(id_=space_id)
             except IndexError:
-                print('Nothing to delete.')
+                print("Nothing to delete.")
 
     # POST /space/create/
     def test_create_space(self):
@@ -30,7 +29,9 @@ class TestSpace:
         response = self.space_api.post_space(data=data)
         # Assert
         check_status_code(request=response, exp_code=200)
-        assert response.json().get('name') == data['name'], f"Unexpected response name: {response.json()}"
+        assert (
+            response.json().get("name") == data["name"]
+        ), f"Unexpected response name: {response.json()}"
 
     def test_create_space_validation_error(self):
         # Act
@@ -39,24 +40,26 @@ class TestSpace:
         check_status_code(request=response, exp_code=422)
 
     # GET /space/
-    @pytest.mark.parametrize("param", ['', 'id', 'available_from', 'available_to', 'city', 'type', 'country'])
+    @pytest.mark.parametrize(
+        "param", ["", "id", "available_from", "available_to", "city", "type", "country"]
+    )
     def test_get_space(self, param):
         # Array
         resp_value = self.space_api.post_space(data=self.space.default_data).json().get(param)
         # Act
-        if param == '':
+        if param == "":
             response = self.space_api.get_space()
-        elif param == 'id':
+        elif param == "id":
             response = self.space_api.get_space(id_=resp_value)
-        elif param == 'available_from':
+        elif param == "available_from":
             response = self.space_api.get_space(available_from=resp_value)
-        elif param == 'available_to':
+        elif param == "available_to":
             response = self.space_api.get_space(available_to=resp_value)
-        elif param == 'city':
+        elif param == "city":
             response = self.space_api.get_space(city=resp_value)
-        elif param == 'type':
+        elif param == "type":
             response = self.space_api.get_space(type_=resp_value)
-        elif param == 'country':
+        elif param == "country":
             response = self.space_api.get_space(country=resp_value)
         else:
             raise Exception(f"Unexpected param: {param}!")
@@ -69,12 +72,12 @@ class TestSpace:
         space_data = self.space_api.post_space(data=self.space.default_data).json()
         # Act
         response = self.space_api.get_space(
-            id_=space_data.get('id'),
-            available_from=space_data.get('available_from'),
-            available_to=space_data.get('available_to'),
-            city=space_data.get('city'),
-            type_=space_data.get('type'),
-            country=space_data.get('country')
+            id_=space_data.get("id"),
+            available_from=space_data.get("available_from"),
+            available_to=space_data.get("available_to"),
+            city=space_data.get("city"),
+            type_=space_data.get("type"),
+            country=space_data.get("country"),
         )
         # Assert
         check_status_code(request=response, exp_code=200)
@@ -82,7 +85,7 @@ class TestSpace:
 
     def test_get_spaces_with_incorrect_param_value(self):
         # Array
-        space_city = self.space_api.post_space(data=self.space.default_data).json().get('city')
+        space_city = self.space_api.post_space(data=self.space.default_data).json().get("city")
         # Act
         response = self.space_api.get_space(city=space_city + self.space.guid)
         # Assert
@@ -92,19 +95,22 @@ class TestSpace:
     # DELETE /space/
     def test_delete_space(self):
         # Array
-        space_id = self.space_api.post_space(data=self.space.default_data).json().get('id')
+        space_id = self.space_api.post_space(data=self.space.default_data).json().get("id")
         # Act
         del_response = self.space_api.delete_space(id_=space_id)
         get_response = self.space_api.get_space(id_=space_id)
         # Assert
         check_status_code(request=del_response, exp_code=200)
-        assert del_response.json().get('detail') == 'Successfully deleted', \
-            f"Incorrect response: {del_response.json()}!"
-        assert len(get_response.json()) == 0, f"Len GET response is incorrect: {get_response.json()}!"
+        assert (
+            del_response.json().get("detail") == "Successfully deleted"
+        ), f"Incorrect response: {del_response.json()}!"
+        assert (
+            len(get_response.json()) == 0
+        ), f"Len GET response is incorrect: {get_response.json()}!"
 
     def test_delete_space_already_deleted(self):
         # Array
-        space_id = self.space_api.post_space(data=self.space.default_data).json().get('id')
+        space_id = self.space_api.post_space(data=self.space.default_data).json().get("id")
         self.space_api.delete_space(id_=space_id)
         # Act
         del_response = self.space_api.delete_space(id_=space_id)
@@ -113,7 +119,7 @@ class TestSpace:
 
     def test_delete_space_id_not_found(self):
         # Act
-        del_response = self.space_api.delete_space(id_=self.space.default_data.get('id'))
+        del_response = self.space_api.delete_space(id_=self.space.default_data.get("id"))
         # Assert
         check_status_code(request=del_response, exp_code=400)
 
@@ -136,5 +142,8 @@ class TestSpace:
         response = self.space_api.get_space_filter()
         # Assert
         check_status_code(request=response, exp_code=200)
-        assert space_data['city'] in response.json().get('cities') and space_data['type'] in response.json().get('types'), \
-            f"City: {space_data['city']} and type: {space_data['type']} not found in filter: {response.json()}!"
+        assert space_data["city"] in response.json().get("cities") and space_data[
+            "type"
+        ] in response.json().get(
+            "types"
+        ), f"City: {space_data['city']} and type: {space_data['type']} not found in filter: {response.json()}!"
