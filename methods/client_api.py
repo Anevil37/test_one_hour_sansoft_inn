@@ -16,7 +16,7 @@ class ClientApi:
         self.url = self.config["url"] + "/client"
 
     @log
-    def put_sign_in(self, data: json) -> requests.Response:
+    def sign_in(self, data: json) -> requests.Response:
         """
         POST /sign-in \n
         :param data: data for sign in.
@@ -26,11 +26,21 @@ class ClientApi:
             return response
 
     @log
-    def post_sign_up(self, data: json) -> requests.Response:
+    def sign_up(self, data: json) -> requests.Response:
         """
         POST /sign-up \n
         :param data: data for sign up.
         :return: json data.
         """
         with requests.post(f"{self.url}/sign-up/", headers=self.headers, json=data) as response:
+            return response
+
+    @log
+    def logout(self, data: json) -> requests.Response:
+        """
+        POST /sign-up \n
+        :param data: data for sign up.
+        :return: json data.
+        """
+        with requests.put(f"{self.url}/logout/", headers=self.headers, json=data) as response:
             return response

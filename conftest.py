@@ -10,14 +10,14 @@ def pytest_addoption(parser):
     )
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(autouse=True)
 def config(request):
     print("\n")
     print("Creating session.\n")
 
     env = request.config.getoption("--env")
     configuration = configparser.RawConfigParser()
-    configuration.read("../config.ini")
+    configuration.read("config.ini")
 
     test_config = {
         "url": configuration.get(env, "url"),

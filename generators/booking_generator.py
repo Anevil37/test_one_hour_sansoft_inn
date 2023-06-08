@@ -4,10 +4,10 @@ import uuid
 
 class BookingGenerator:
     def __init__(self, space_id: str = None, datetime_from: str = None, datetime_to: str = None):
-        self.date_now = (
-            datetime.datetime.now(tz=datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]
-            + "Z"
-        )
+        self.date_now = datetime.datetime.now(tz=datetime.timezone.utc).astimezone()
+
+        self.date_now = self.date_now + datetime.timedelta(days=1)
+        self.date_now = self.date_now.isoformat()
 
         if space_id is None:
             space_id = str(uuid.uuid4())

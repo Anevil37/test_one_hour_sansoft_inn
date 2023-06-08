@@ -18,7 +18,7 @@ class BookingApi:
         self.url = self.config["url"] + "/booking"
 
     @log
-    def post_booking(self, data: json) -> requests.Response:
+    def create_booking(self, data: json) -> requests.Response:
         """
         POST /booking/ \n
         :param data: data for create booking.
@@ -37,7 +37,7 @@ class BookingApi:
             return response
 
     @log
-    def get_booking_owner(self) -> requests.Response:
+    def get_bookings_for_owner(self) -> requests.Response:
         """
         GET /booking/owner/ \n
         :return: json data.

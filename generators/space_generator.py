@@ -9,7 +9,7 @@ class SpaceGenerator:
     def __init__(self, config):
         self.config = config
         self.guid = str(uuid.uuid4())
-        self.rnd_number = random.randint(0, 90)
+        self.rnd_number = random.randint(0, 89)
         self.space_api = SpaceApi(config=self.config)
         self.types = self.space_api.get_space_filter().json().get("types")
         self.default_data = {
@@ -28,6 +28,6 @@ class SpaceGenerator:
                 "https://www.neptunus.co.uk/wp-content/uploads/2018/08/demontabel-bouwen-Flexolution-2-flex2shop-mclaren-showroom-hatfield-8-820x546.jpg"
             ],
             "id": self.guid,
-            "lat": str(self.rnd_number + 3),
-            "lng": str(self.rnd_number + 4),
+            "lat": str(self.rnd_number),
+            "lng": str(self.rnd_number),
         }

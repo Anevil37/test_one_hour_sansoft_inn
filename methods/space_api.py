@@ -59,7 +59,7 @@ class SpaceApi:
             return response
 
     @log
-    def post_space(self, data: json) -> requests.Response:
+    def create_space(self, data: json) -> requests.Response:
         """
         POST /space/ \n
         :param data: data for create space.

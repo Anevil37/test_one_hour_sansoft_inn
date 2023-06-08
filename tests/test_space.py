@@ -24,7 +24,7 @@ class TestSpace:
     # POST /space/create/
     def test_create_space(self):
         data: dict = self.space.default_data
-        response = self.space_api.post_space(data=data)
+        response = self.space_api.create_space(data=data)
         check_status_code(request=response, exp_code=200)
 
         assert (
@@ -32,7 +32,7 @@ class TestSpace:
         ), f"Unexpected response name: {response.json()}"
 
     def test_create_space_validation_error(self):
-        response = self.space_api.post_space(data={"test": "test"})
+        response = self.space_api.create_space(data={"test": "test"})
         check_status_code(request=response, exp_code=422)
 
     # GET /space/
@@ -40,7 +40,7 @@ class TestSpace:
         "param", ["", "id", "available_from", "available_to", "city", "type", "country"]
     )
     def test_get_space(self, param):
-        resp_value = self.space_api.post_space(data=self.space.default_data).json().get(param)
+        resp_value = self.space_api.create_space(data=self.space.default_data).json().get(param)
 
         if param == "":
             response = self.space_api.get_space()
@@ -59,12 +59,11 @@ class TestSpace:
         else:
             raise Exception(f"Unexpected param: {param}!")
 
-
         check_status_code(request=response, exp_code=200)
         assert len(response.json()) != 0, f"Space not found. Actual response: {response.json()}"
 
     def test_get_spaces_with_all_params(self):
-        space_data = self.space_api.post_space(data=self.space.default_data).json()
+        space_data = self.space_api.create_space(data=self.space.default_data).json()
         response = self.space_api.get_space(
             id_=space_data.get("id"),
             available_from=space_data.get("available_from"),
@@ -78,7 +77,7 @@ class TestSpace:
         assert len(response.json()) != 0, f"Space not found. Actual response: {response.json()}"
 
     def test_get_spaces_with_incorrect_param_value(self):
-        space_city = self.space_api.post_space(data=self.space.default_data).json().get("city")
+        space_city = self.space_api.create_space(data=self.space.default_data).json().get("city")
         response = self.space_api.get_space(city=space_city + self.space.guid)
 
         check_status_code(request=response, exp_code=200)
@@ -86,7 +85,7 @@ class TestSpace:
 
     # DELETE /space/
     def test_delete_space(self):
-        space_id = self.space_api.post_space(data=self.space.default_data).json().get("id")
+        space_id = self.space_api.create_space(data=self.space.default_data).json().get("id")
         del_response = self.space_api.delete_space(id_=space_id)
         get_response = self.space_api.get_space(id_=space_id)
 
@@ -99,7 +98,7 @@ class TestSpace:
         ), f"Len GET response is incorrect: {get_response.json()}!"
 
     def test_delete_space_already_deleted(self):
-        space_id = self.space_api.post_space(data=self.space.default_data).json().get("id")
+        space_id = self.space_api.create_space(data=self.space.default_data).json().get("id")
         self.space_api.delete_space(id_=space_id)
         del_response = self.space_api.delete_space(id_=space_id)
 
@@ -112,7 +111,7 @@ class TestSpace:
 
     # GET /space/owner/
     def test_get_spaces_owner(self):
-        self.space_api.post_space(data=self.space.default_data).json()
+        self.space_api.create_space(data=self.space.default_data).json()
         response = self.space_api.get_space_owner()
 
         check_status_code(request=response, exp_code=200)
@@ -121,7 +120,7 @@ class TestSpace:
     # GET /space/filter/
     def test_get_spaces_filter(self):
         space_data = self.space.default_data
-        self.space_api.post_space(data=space_data).json()
+        self.space_api.create_space(data=space_data).json()
         response = self.space_api.get_space_filter()
 
         check_status_code(request=response, exp_code=200)
