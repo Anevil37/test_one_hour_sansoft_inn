@@ -101,7 +101,9 @@ class TestBooking:
                 assert contact is not None
 
         # TODO booking in status "created" is hidden from the history
-        assert booking_id not in booking_ids, f"Booking with status created found in the history: {response.json()}!"
+        assert (
+            booking_id not in booking_ids
+        ), f"Booking with status created found in the history: {response.json()}!"
 
     def test_get_booking_owner_after_delete_space(self):
         booking_id = (
@@ -156,7 +158,10 @@ class TestBooking:
         for booking in response.json():
             if booking.get("id"):
                 booking_ids.append(booking.get("id"))
-        assert booking_id in booking_ids, f"Booking for tenant not found in {response.json()}!"
+
+        assert (
+            booking_id not in booking_ids
+        ), f"Booking with status created found in history: {response.json()}!"
 
     def test_get_booking_tenant_after_delete_space(self):
         booking_id = (
