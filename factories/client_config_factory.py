@@ -1,4 +1,4 @@
-class LoginGenerator:
+class ClientConfigFactory:
     def __init__(self, config):
         self.config = config
         self.default_data = {

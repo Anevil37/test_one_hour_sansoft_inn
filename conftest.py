@@ -1,7 +1,7 @@
 import configparser
 
+import httpx
 import pytest
-import requests
 
 
 def pytest_addoption(parser):
@@ -26,7 +26,7 @@ def config(request):
     }
 
     token = (
-        requests.put(
+        httpx.put(
             url=f"{test_config['url']}/client/sign-in/",
             headers={
                 "Content-Type": "application/json",

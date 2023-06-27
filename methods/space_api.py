@@ -1,6 +1,6 @@
 import json
 
-import requests
+import httpx
 
 from utils.logger.log import log
 
@@ -28,63 +28,64 @@ class SpaceApi:
         country: str = None,
         limit: int = None,
         offset: int = None,
-    ) -> requests.Response:
+    ) -> httpx.Response:
         """
         GET /space/ \n
         :return: json data.
         """
-        with requests.get(
+        params = {
+            "id": id_,
+            "available_from": available_from,
+            "available_to": available_to,
+            "city": city,
+            "type": type_,
+            "country": country,
+            "limit": limit,
+            "offset": offset,
+        }
+        params = {key: value for key, value in params.items() if value}
+
+        resp = httpx.get(
             f"{self.url}/",
             headers=self.headers,
-            params={
-                "id": id_,
-                "available_from": available_from,
-                "available_to": available_to,
-                "city": city,
-                "type": type_,
-                "country": country,
-                "limit": limit,
-                "offset": offset,
-            },
-        ) as response:
-            return response
+            params=params,
+        )
+
+        return resp
 
     @log
-    def get_space_filter(self) -> requests.Response:
+    def get_space_filter(self) -> httpx.Response:
         """
         GET /space/filter/ \n
         :return: json data.
         """
-        with requests.get(f"{self.url}/filter/", headers=self.headers) as response:
-            return response
+        return httpx.get(f"{self.url}/filter/", headers=self.headers)
 
     @log
-    def create_space(self, data: json) -> requests.Response:
+    def create_space(self, data: json) -> httpx.Response:
         """
         POST /space/ \n
         :param data: data for create space.
         :return: json data.
         """
-        with requests.post(f"{self.url}/", headers=self.headers, json=data) as response:
-            return response
+        return httpx.post(f"{self.url}/", headers=self.headers, json=data)
 
     @log
-    def delete_space(self, id_: str) -> requests.Response:
+    def delete_space(self, id_: str) -> httpx.Response:
         """
         DELETE /space/ \n
         :param id_: space id.
         :return: json data.
         """
-        with requests.delete(f"{self.url}/", headers=self.headers, params={"id": id_}) as response:
-            return response
+        return httpx.delete(f"{self.url}/", headers=self.headers, params={"id": id_})
 
     @log
-    def get_space_owner(self, limit: int = None, offset: int = None) -> requests.Response:
+    def get_space_owner(self, limit: int = None, offset: int = None) -> httpx.Response:
         """
         GET /space/owner \n
         :return: json data.
         """
-        with requests.get(
-            f"{self.url}/owner/", headers=self.headers, params={"limit": limit, "offset": offset}
-        ) as response:
-            return response
+        params = {"limit": limit, "offset": offset}
+        params = {key: value for key, value in params.items() if value}
+
+        return httpx.get(f"{self.url}/owner/", headers=self.headers, params=params)

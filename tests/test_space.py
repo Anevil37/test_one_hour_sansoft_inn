@@ -1,6 +1,6 @@
 import pytest
 
-from generators.space_generator import SpaceGenerator
+from factories.space_factory import SpaceFactory
 from methods.space_api import SpaceApi
 from utils.utils import check_status_code
 
@@ -10,7 +10,7 @@ class TestSpace:
     def setup(self, config):
         self.config = config
         self.space_api = SpaceApi(config=self.config)
-        self.space = SpaceGenerator(config=self.config)
+        self.space = SpaceFactory(config=self.config)
 
     def teardown(self):
         space = self.space_api.get_space(city=self.space.default_data.get("city"))
@@ -124,8 +124,10 @@ class TestSpace:
         response = self.space_api.get_space_filter()
 
         check_status_code(request=response, exp_code=200)
-        assert space_data["city"] in response.json().get("cities") and space_data[
-            "type"
-        ] in response.json().get(
+
+        kok = response.json().get("cities")
+
+        assert space_data["city"] in response.json().get("cities")
+        assert space_data["type"] in response.json().get(
             "types"
         ), f"City: {space_data['city']} and type: {space_data['type']} not found in filter: {response.json()}!"

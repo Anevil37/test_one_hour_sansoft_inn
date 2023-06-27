@@ -1,8 +1,8 @@
 import pytest_check
-import requests
+from httpx import Response
 
 
-def check_status_code(request: requests, exp_code: int):
+def check_status_code(request: Response, exp_code: int):
     """
     Check status code for request. \n
     :param request: http(s) request

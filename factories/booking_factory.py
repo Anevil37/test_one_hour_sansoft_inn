@@ -2,7 +2,7 @@ import datetime
 import uuid
 
 
-class BookingGenerator:
+class BookingFactory:
     def __init__(self, space_id: str = None, datetime_from: str = None, datetime_to: str = None):
         self.date_now = datetime.datetime.now(tz=datetime.timezone.utc).astimezone()
 

@@ -1,7 +1,7 @@
 import pytest
 
-from generators.booking_generator import BookingGenerator
-from generators.space_generator import SpaceGenerator
+from factories.booking_factory import BookingFactory
+from factories.space_factory import SpaceFactory
 from methods.booking_api import BookingApi
 from methods.space_api import SpaceApi
 from utils.utils import check_status_code
@@ -13,7 +13,7 @@ class TestBooking:
         self.config = config
         self.booking_api = BookingApi(config=self.config)
         self.space_api = SpaceApi(config=self.config)
-        self.space = SpaceGenerator(config=self.config)
+        self.space = SpaceFactory(config=self.config)
         self.space_id = self.space_api.create_space(data=self.space.default_data).json().get("id")
 
     def teardown(self):
@@ -34,7 +34,7 @@ class TestBooking:
 
     # POST /booking/
     def test_create_booking(self):
-        data = BookingGenerator(space_id=self.space_id).default_data
+        data = BookingFactory(space_id=self.space_id).default_data
         response = self.booking_api.create_booking(data=data)
         cost = response.json().get("cost")
         booking_id = response.json().get("id")
@@ -44,8 +44,8 @@ class TestBooking:
         assert booking_id is not None, f"Booking id not found: {booking_id}!"
 
     def test_create_booking_datetime_zero(self):
-        date_now = BookingGenerator().date_now
-        data = BookingGenerator(
+        date_now = BookingFactory().date_now
+        data = BookingFactory(
             space_id=self.space_id, datetime_from=date_now, datetime_to=date_now
         ).default_data
         response = self.booking_api.create_booking(data=data)
@@ -56,8 +56,8 @@ class TestBooking:
         ), f"Incorrect response: {response.json()}!"
 
     def test_create_booking_datetime_in_future_not_available_date(self):
-        date_now = BookingGenerator().date_now.replace("2023", "2050")
-        data = BookingGenerator(space_id=self.space_id, datetime_to=date_now).default_data
+        date_now = BookingFactory().date_now.replace("2023", "2050")
+        data = BookingFactory(space_id=self.space_id, datetime_to=date_now).default_data
         response = self.booking_api.create_booking(data=data)
 
         check_status_code(request=response, exp_code=400)
@@ -66,8 +66,8 @@ class TestBooking:
         ), f"Incorrect response: {response.json()}!"
 
     def test_create_booking_datetime_in_past_not_available_date(self):
-        date_now = BookingGenerator().date_now.replace("2023", "2010")
-        data = BookingGenerator(space_id=self.space_id, datetime_to=date_now).default_data
+        date_now = BookingFactory().date_now.replace("2023", "2010")
+        data = BookingFactory(space_id=self.space_id, datetime_to=date_now).default_data
         response = self.booking_api.create_booking(data=data)
 
         check_status_code(request=response, exp_code=400)
@@ -84,7 +84,7 @@ class TestBooking:
     def test_get_booking_owner(self):
         booking_id = (
             self.booking_api.create_booking(
-                data=BookingGenerator(space_id=self.space_id).default_data
+                data=BookingFactory(space_id=self.space_id).default_data
             )
             .json()
             .get("id")
@@ -108,7 +108,7 @@ class TestBooking:
     def test_get_booking_owner_after_delete_space(self):
         booking_id = (
             self.booking_api.create_booking(
-                data=BookingGenerator(space_id=self.space_id).default_data
+                data=BookingFactory(space_id=self.space_id).default_data
             )
             .json()
             .get("id")
@@ -126,7 +126,7 @@ class TestBooking:
     def test_get_deleted_booking_for_owner(self):
         booking_id = (
             self.booking_api.create_booking(
-                data=BookingGenerator(space_id=self.space_id).default_data
+                data=BookingFactory(space_id=self.space_id).default_data
             )
             .json()
             .get("id")
@@ -146,7 +146,7 @@ class TestBooking:
     def test_get_booking_tenant(self):
         booking_id = (
             self.booking_api.create_booking(
-                data=BookingGenerator(space_id=self.space_id).default_data
+                data=BookingFactory(space_id=self.space_id).default_data
             )
             .json()
             .get("id")
@@ -166,7 +166,7 @@ class TestBooking:
     def test_get_booking_tenant_after_delete_space(self):
         booking_id = (
             self.booking_api.create_booking(
-                data=BookingGenerator(space_id=self.space_id).default_data
+                data=BookingFactory(space_id=self.space_id).default_data
             )
             .json()
             .get("id")
@@ -186,7 +186,7 @@ class TestBooking:
     def test_get_booking_tenant_after_delete_book(self):
         booking_id = (
             self.booking_api.create_booking(
-                data=BookingGenerator(space_id=self.space_id).default_data
+                data=BookingFactory(space_id=self.space_id).default_data
             )
             .json()
             .get("id")
@@ -207,7 +207,7 @@ class TestBooking:
     def test_delete_booking(self):
         booking_id = (
             self.booking_api.create_booking(
-                data=BookingGenerator(space_id=self.space_id).default_data
+                data=BookingFactory(space_id=self.space_id).default_data
             )
             .json()
             .get("id")
@@ -222,7 +222,7 @@ class TestBooking:
     def test_delete_booking_already_deleted(self):
         booking_id = (
             self.booking_api.create_booking(
-                data=BookingGenerator(space_id=self.space_id).default_data
+                data=BookingFactory(space_id=self.space_id).default_data
             )
             .json()
             .get("id")

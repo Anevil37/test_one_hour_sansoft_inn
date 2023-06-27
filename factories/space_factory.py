@@ -5,7 +5,7 @@ import uuid
 from methods.space_api import SpaceApi
 
 
-class SpaceGenerator:
+class SpaceFactory:
     def __init__(self, config):
         self.config = config
         self.guid = str(uuid.uuid4())

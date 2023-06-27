@@ -2,8 +2,8 @@ from random import randint
 
 import pytest
 
-from generators.login_generator import LoginGenerator
-from generators.user_generator import UserGenerator
+from factories.client_config_factory import ClientConfigFactory
+from factories.client_factory import ClientFactory
 from methods.client_api import ClientApi
 from utils.utils import check_status_code
 
@@ -13,8 +13,8 @@ class TestClient:
     def setup(self, config):
         self.config = config
         self.client_api = ClientApi(config=self.config)
-        self.user = UserGenerator()
-        self.login = LoginGenerator(config=self.config)
+        self.user = ClientFactory()
+        self.client_config = ClientConfigFactory(config=self.config)
 
     # POST /sing-up/
     def test_sing_up(self):
@@ -43,7 +43,7 @@ class TestClient:
 
     # POST /sing-in/
     def test_sing_in(self):
-        response = self.client_api.sign_in(data=self.login.default_data)
+        response = self.client_api.sign_in(data=self.client_config.default_data)
         check_status_code(request=response, exp_code=200)
 
         assert (
@@ -51,11 +51,11 @@ class TestClient:
         ), f"Failed to get token! Actual response: {response.json()}"
 
     def test_sing_in_incorrect_password(self):
-        self.login.default_data.update(
+        self.client_config.default_data.update(
             {"password": self.config["password"] + "test_sing_in_incorrect_password"}
         )
 
-        data = self.login.default_data
+        data = self.client_config.default_data
         response = self.client_api.sign_in(data=data)
         check_status_code(request=response, exp_code=401)
 
@@ -64,9 +64,9 @@ class TestClient:
         ), f"Unexpected response: {response.json()}"
 
     def test_sing_empty_password(self):
-        self.login.default_data.update({"password": ""})
+        self.client_config.default_data.update({"password": ""})
 
-        data = self.login.default_data
+        data = self.client_config.default_data
         response = self.client_api.sign_in(data=data)
 
         assert (
@@ -74,10 +74,10 @@ class TestClient:
         ), f"Unexpected response: {response.json()}"
 
     def test_sing_in_nonexistent_user(self):
-        self.login.default_data.update(
+        self.client_config.default_data.update(
             {"phone_number": self.config["phone"] + str(randint(0, 500))}
         )
-        data = self.login.default_data
+        data = self.client_config.default_data
 
         response = self.client_api.sign_in(data=data)
         check_status_code(request=response, exp_code=404)
