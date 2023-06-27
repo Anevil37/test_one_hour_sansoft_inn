@@ -1,9 +1,9 @@
 import pytest
 
+from api_clients.booking_api import BookingApi
+from api_clients.space_api import SpaceApi
 from factories.booking_factory import BookingFactory
 from factories.space_factory import SpaceFactory
-from methods.booking_api import BookingApi
-from methods.space_api import SpaceApi
 from utils.utils import check_status_code
 
 

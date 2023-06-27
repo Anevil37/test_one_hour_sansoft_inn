@@ -2,9 +2,9 @@ from random import randint
 
 import pytest
 
+from api_clients.client_api import ClientApi
 from factories.client_config_factory import ClientConfigFactory
 from factories.client_factory import ClientFactory
-from methods.client_api import ClientApi
 from utils.utils import check_status_code
 
 

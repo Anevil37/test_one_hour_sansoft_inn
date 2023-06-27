@@ -1,7 +1,7 @@
 import pytest
 
+from api_clients.space_api import SpaceApi
 from factories.space_factory import SpaceFactory
-from methods.space_api import SpaceApi
 from utils.utils import check_status_code
 
 

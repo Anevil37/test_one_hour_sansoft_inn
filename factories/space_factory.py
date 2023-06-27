@@ -1,8 +1,7 @@
-import datetime
 import random
 import uuid
 
-from methods.space_api import SpaceApi
+from api_clients.space_api import SpaceApi
 
 
 class SpaceFactory:
